@@ -266,12 +266,10 @@ const AttackMap = () => {
         border: attacks.length > 0 ? '2px solid #ff4757' : '2px solid #666',
         minWidth: '200px'
       }}>
-        <div style={{ fontWeight: 'bold', marginBottom: '8px', color: attacks.length > 0 ? '#ff4757' : '#666', fontSize: '16px' }}>
-          {attacks.length > 0 ? '🚨' : '⚠️'} Attacks: {attacks.length}
-        </div>
+       
         
         <div style={{ fontSize: '12px', opacity: 0.9, marginBottom: '12px', borderBottom: '1px solid #444', paddingBottom: '8px' }}>
-          📍 {useDemoData ? 'India (Demo)' : (filterCountry || 'Global View')}
+          📍 {useDemoData ? 'India' : (filterCountry || 'Global View')}
         </div>
         
         {!useDemoData && availableCountries.length > 0 && (
@@ -313,28 +311,10 @@ const AttackMap = () => {
               fontWeight: '600'
             }}
           >
-            {useDemoData ? '📊 Demo Mode ON' : '📡 Use Demo Data'}
+            {useDemoData ? ' TRACE ON ' : 'TRACE OFF'}
           </button>
           
-          <button 
-            onClick={() => {
-              setFilterCountry(filterCountry === 'India' ? null : 'India');
-            }}
-            disabled={useDemoData}
-            style={{
-              background: filterCountry && !useDemoData ? '#2ed573' : '#2d3561',
-              color: 'white',
-              border: 'none',
-              padding: '8px 12px',
-              borderRadius: '6px',
-              cursor: useDemoData ? 'not-allowed' : 'pointer',
-              fontSize: '12px',
-              fontWeight: '600',
-              opacity: useDemoData ? 0.5 : 1
-            }}
-          >
-            {filterCountry ? `🇮🇳 India Only` : '🌍 Show All'}
-          </button>
+          
         </div>
       </div>
     </div>

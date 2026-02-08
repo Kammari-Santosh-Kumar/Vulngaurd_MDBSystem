@@ -7,6 +7,7 @@ const Scanner = () => {
   const [scanning, setScanning] = useState(false);
   const [scans, setScans] = useState([]);
   const [selectedScan, setSelectedScan] = useState(null);
+  const [scanMethod, setScanMethod] = useState('Nmap');
 
   useEffect(() => {
     fetchScans();
@@ -31,11 +32,10 @@ const Scanner = () => {
 
     setScanning(true);
     try {
-      await scanAPI.startScan(targetUrl);
-      alert('Scan started successfully! Check the scan history below.');
+      await scanAPI.startScan(targetUrl, 'Quick', scanMethod);
+      alert(`${scanMethod} scan started successfully! Check the scan history below.`);
       setTargetUrl('');
       
-      // Refresh scan list after a delay
       setTimeout(() => {
         fetchScans();
         setScanning(false);
@@ -71,42 +71,63 @@ const Scanner = () => {
     <div className="container">
       <div className="page-header">
         <h1>Vulnerability Scanner</h1>
-        <p>Scan websites for security vulnerabilities</p>
+        <p>Scan websites and networks for security vulnerabilities</p>
       </div>
 
-      {/* Scan Form */}
       <div className="card">
         <h3 style={{ marginBottom: '1.5rem', color: '#00d4ff' }}>Start New Scan</h3>
         <form onSubmit={handleStartScan}>
           <div className="form-group">
-            <label>Target URL</label>
+            <label>Target URL or IP</label>
             <input
-              type="url"
+              type="text"
               className="form-control"
-              placeholder="https://example.com"
+              placeholder="https://example.com or 192.168.1.1"
               value={targetUrl}
               onChange={(e) => setTargetUrl(e.target.value)}
               disabled={scanning}
               required
             />
           </div>
+          
+          <div className="form-group">
+            <label>Scan Method</label>
+            <select
+  className="form-control"
+  value={scanMethod}
+  onChange={(e) => setScanMethod(e.target.value)}
+  disabled={scanning}
+>
+  <option value="Nmap">Nmap (Network & Port Scanner)</option>
+  <option value="OpenVAS">OpenVAS (Comprehensive Vulnerability Scanner) - Recommended</option>
+  <option value="Regex">Regex (Fast Web Scanner)</option>
+</select>
+            <small style={{ color: '#8b92a8', display: 'block', marginTop: '0.5rem' }}>
+              {scanMethod === 'Nmap' 
+    ? '🔍 Nmap: Network scanning - ports, services, OS detection'
+    : scanMethod === 'OpenVAS'
+    ? '🛡️ OpenVAS: Enterprise-grade scanner - 50,000+ vulnerability tests (OWASP, CVE)'
+    : '🌐 Regex: Quick web application vulnerability check'
+  }
+            </small>
+          </div>
+
           <button type="submit" className="btn btn-primary" disabled={scanning}>
             {scanning ? (
               <>
                 <FaSpinner style={{ animation: 'spin 1s linear infinite' }} />
-                Scanning...
+                Scanning with {scanMethod}...
               </>
             ) : (
               <>
                 <FaSearch />
-                Start Scan
+                Start {scanMethod} Scan
               </>
             )}
           </button>
         </form>
       </div>
 
-      {/* Scan History */}
       <div className="card" style={{ marginTop: '2rem' }}>
         <h3 style={{ marginBottom: '1.5rem', color: '#00d4ff' }}>Scan History</h3>
         <div className="table-container">
@@ -165,30 +186,32 @@ const Scanner = () => {
         </div>
       </div>
 
-      {/* Scan Details Modal */}
       {selectedScan && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'rgba(0, 0, 0, 0.8)',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          zIndex: 1000,
-          padding: '2rem'
-        }}
-        onClick={() => setSelectedScan(null)}
-        >
-          <div className="card" style={{
-            maxWidth: '900px',
-            maxHeight: '80vh',
-            overflow: 'auto',
-            width: '100%'
+        <div 
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'rgba(0, 0, 0, 0.8)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 1000,
+            padding: '2rem'
           }}
-          onClick={(e) => e.stopPropagation()}
+          onClick={() => setSelectedScan(null)}
+        >
+          <div 
+            className="card" 
+            style={{
+              maxWidth: '900px',
+              maxHeight: '80vh',
+              overflow: 'auto',
+              width: '100%'
+            }}
+            onClick={(e) => e.stopPropagation()}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
               <h3 style={{ color: '#00d4ff' }}>Scan Details</h3>
@@ -213,10 +236,14 @@ const Scanner = () => {
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 {selectedScan.vulnerabilities.map((vuln, index) => (
-                  <div key={index} className="card" style={{
-                    borderLeft: `4px solid ${getSeverityColor(vuln.severity)}`,
-                    padding: '1rem'
-                  }}>
+                  <div 
+                    key={index} 
+                    className="card" 
+                    style={{
+                      borderLeft: `4px solid ${getSeverityColor(vuln.severity)}`,
+                      padding: '1rem'
+                    }}
+                  >
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
                       <h5 style={{ color: '#e0e0e0' }}>{vuln.vulnerabilityType}</h5>
                       <span className={`badge badge-${vuln.severity.toLowerCase()}`}>

@@ -11,8 +11,8 @@ const api = axios.create({
 
 // Scans API
 export const scanAPI = {
-  startScan: (targetUrl, scanType = 'Quick') => 
-    api.post('/scans', { targetUrl, scanType }),
+  startScan: (targetUrl, scanType = 'Quick', scanMethod = 'Nmap') => 
+    api.post('/scans', { targetUrl, scanType, scanMethod }),
   
   getAllScans: () => 
     api.get('/scans'),
@@ -23,7 +23,6 @@ export const scanAPI = {
   getScanStats: () => 
     api.get('/scans/stats/overview'),
 };
-
 // Vulnerabilities API
 export const vulnerabilityAPI = {
   getAllVulnerabilities: (params = {}) => 
