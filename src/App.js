@@ -2,7 +2,6 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
 import Navbar from './components/Navbar';
-import LiveAttackFeed from './components/LiveAttackFeed';
 import Dashboard from './pages/Dashboard';
 import Scanner from './pages/Scanner';
 import Attacks from './pages/Attacks';
@@ -19,7 +18,6 @@ function App() {
             <Route path="/scanner" element={<Scanner />} />
             <Route path="/attacks" element={<Attacks />} />
           </Routes>
-          <LiveAttackFeed />
         </div>
       </Router>
     </ThemeProvider>

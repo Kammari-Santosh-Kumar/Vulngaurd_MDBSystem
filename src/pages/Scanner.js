@@ -98,9 +98,9 @@ const Scanner = () => {
   onChange={(e) => setScanMethod(e.target.value)}
   disabled={scanning}
 >
-  <option value="Nmap">Nmap (Network & Port Scanner)</option>
-  <option value="OpenVAS">OpenVAS (Comprehensive Vulnerability Scanner) - Recommended</option>
-  <option value="Regex">Regex (Fast Web Scanner)</option>
+  <option value="Nmap">Nmap (Network & Ports Scanner)</option>
+  <option value="OpenVAS">OpenVAS (Comprehensive Vulnerability Scanner)</option>
+  <option value="Regex">Fast Web Scanner</option>
 </select>
             <small style={{ color: '#8b92a8', display: 'block', marginTop: '0.5rem' }}>
               {scanMethod === 'Nmap' 

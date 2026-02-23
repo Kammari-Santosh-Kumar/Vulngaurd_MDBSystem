@@ -1,11 +1,9 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { FaShieldAlt, FaMoon, FaSun } from 'react-icons/fa';
-import { useTheme } from '../context/ThemeContext';
+import { FaShieldAlt } from 'react-icons/fa';
 
 const Navbar = () => {
   const location = useLocation();
-  const { isDark, toggleTheme } = useTheme();
 
   return (
     <nav className="navbar">
@@ -38,15 +36,6 @@ const Navbar = () => {
             >
               Honeypot & Attacks
             </Link>
-          </li>
-          <li>
-            <button 
-              onClick={toggleTheme}
-              className="theme-toggle-btn"
-              title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-            >
-              {isDark ? <FaSun /> : <FaMoon />}
-            </button>
           </li>
         </ul>
       </div>
