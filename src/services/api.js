@@ -1,9 +1,17 @@
 import axios from 'axios';
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+const HONEYPOT_API_URL = process.env.REACT_APP_HONEYPOT_API_URL || 'http://localhost:3001/api/honeypot';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+const honeypotApi = axios.create({
+  baseURL: HONEYPOT_API_URL,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -48,6 +56,20 @@ export const attackAPI = {
   
   getAttackStats: () => 
     api.get('/attacks/stats'),
+};
+
+// Honeypot API
+export const honeypotAPI = {
+  adminLogin: (username, password) => 
+    honeypotApi.post('/admin/login', { username, password }),
+  
+  getDatabaseConfig: () => 
+    honeypotApi.get('/config/database'),
+  
+  getBackupDirectory: () => 
+    honeypotApi.get('/backup'),
+  
+  
 };
 
 export default api;

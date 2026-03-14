@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import Dashboard from './pages/Dashboard';
 import Scanner from './pages/Scanner';
 import Attacks from './pages/Attacks';
+import HoneypotWebsite from './pages/HoneypotWebsite';
 import './App.css';
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/scanner" element={<Scanner />} />
             <Route path="/attacks" element={<Attacks />} />
+            <Route path="/honeypot" element={<HoneypotWebsite />} />
           </Routes>
         </div>
       </Router>

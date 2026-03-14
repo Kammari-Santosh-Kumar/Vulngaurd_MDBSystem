@@ -37,6 +37,14 @@ const Navbar = () => {
               Honeypot & Attacks
             </Link>
           </li>
+          <li>
+            <Link 
+              to="/honeypot" 
+              className={location.pathname === '/honeypot' ? 'active' : ''}
+            >
+              DataVault Admin
+            </Link>
+          </li>
         </ul>
       </div>
     </nav>
